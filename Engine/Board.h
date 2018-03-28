@@ -31,6 +31,8 @@ private:
 	int width;
 	int height;
 
+	RectI* pBg = nullptr;
+
 	Tile* pTiles = nullptr;
 
 	Graphics& gfx;

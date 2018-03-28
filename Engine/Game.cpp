@@ -26,7 +26,7 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	pBoard = new Board( gfx, Board::Size::Small );
+	pBoard = new Board( gfx, Board::Size::Big );
 }
 
 void Game::Go()

@@ -14,16 +14,19 @@ Board::Board( Graphics& gfx, Size size )
 		width = 10;
 		height = 8;
 		nBombs = 20;
+		pBg = new RectI( boardPos, width * SpriteCodex::tileSize, height * SpriteCodex::tileSize );
 		break;
 	case Size::Medium:
 		width = 20;
 		height = 16;
 		nBombs = 40;
+		pBg = new RectI( boardPos, width * SpriteCodex::tileSize, height * SpriteCodex::tileSize );
 		break;
 	case Size::Big:
 		width = 40;
 		height = 32;
 		nBombs = 80;
+		pBg = new RectI( boardPos, width * SpriteCodex::tileSize, height * SpriteCodex::tileSize );
 		break;
 	}
 
@@ -34,12 +37,22 @@ Board::Board( Graphics& gfx, Size size )
 
 Board::~Board()
 {
+	delete pBg;
+	pBg = nullptr;
 	delete[] pTiles;
 	pTiles = nullptr;
 }
 
 void Board::Draw() const
 {
+	for( int i = pBg->left; i < pBg->right; i++ )
+	{
+		for( int j = pBg->top; j < pBg->bottom; j++ )
+		{
+			gfx.PutPixel( i, j, SpriteCodex::baseColor );
+		}
+	}
+
 	for( int j = 0; j < height; j++ )
 	{
 		for( int i = 0; i < width; i++ )
