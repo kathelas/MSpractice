@@ -18,6 +18,7 @@ public:
 	Board( Graphics& gfx, Size size );
 	~Board();
 	void Draw() const;
+	void SpawnBombs( int amount );
 
 
 
