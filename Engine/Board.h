@@ -16,6 +16,7 @@ public:
 public:
 	Board() = default;
 	Board( Graphics& gfx, Size size );
+	~Board();
 	void Draw() const;
 
 

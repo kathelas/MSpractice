@@ -26,6 +26,12 @@ Board::Board( Graphics& gfx, Size size )
 
 }
 
+Board::~Board()
+{
+	delete[] pTiles;
+	pTiles = nullptr;
+}
+
 void Board::Draw() const
 {
 	for( int j = 0; j < height; j++ )

@@ -39,9 +39,16 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
+	{
+		delete pBoard;
+		pBoard = nullptr;
+	}
 }
 
 void Game::ComposeFrame()
 {
-	pBoard->Draw();
+	if( pBoard != nullptr )
+		pBoard->Draw();
+
 }
