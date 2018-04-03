@@ -14,33 +14,24 @@ Board::Board( Graphics& gfx, Size size )
 		width = 10;
 		height = 8;
 		nBombs = 20;
-		pBg = new RectI( boardPos, width * SpriteCodex::tileSize, height * SpriteCodex::tileSize );
 		break;
 	case Size::Medium:
 		width = 20;
 		height = 16;
 		nBombs = 40;
-		pBg = new RectI( boardPos, width * SpriteCodex::tileSize, height * SpriteCodex::tileSize );
 		break;
 	case Size::Big:
 		width = 40;
 		height = 32;
 		nBombs = 80;
-		pBg = new RectI( boardPos, width * SpriteCodex::tileSize, height * SpriteCodex::tileSize );
 		break;
 	}
 
-	pTiles = new Tile[width * height];
+	pBg = std::make_unique<RectI>( boardPos, width * SpriteCodex::tileSize, height * SpriteCodex::tileSize );
+
+	pTiles = std::make_unique<Tile[]>(width * height);
 
 	SpawnBombs( nBombs );
-}
-
-Board::~Board()
-{
-	delete pBg;
-	pBg = nullptr;
-	delete[] pTiles;
-	pTiles = nullptr;
 }
 
 void Board::Draw() const

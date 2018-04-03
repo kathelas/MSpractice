@@ -1,6 +1,7 @@
 #pragma once
 #include "Tile.h"
 #include "SpriteCodex.h"
+#include <memory>
 
 class Board
 
@@ -16,7 +17,6 @@ public:
 public:
 	Board() = default;
 	Board( Graphics& gfx, Size size );
-	~Board();
 	void Draw() const;
 	void SpawnBombs( int amount );
 
@@ -31,9 +31,9 @@ private:
 	int width;
 	int height;
 
-	RectI* pBg = nullptr;
+	std::unique_ptr<RectI> pBg;
 
-	Tile* pTiles = nullptr;
+	std::unique_ptr<Tile[]> pTiles;
 
 	Graphics& gfx;
 
