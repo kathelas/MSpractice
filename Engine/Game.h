@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Board.h"
+#include <memory>
 
 class Game
 {
@@ -44,6 +45,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
-	Board* pBoard = nullptr;
+	std::unique_ptr<Board> pBoard;
 
 };

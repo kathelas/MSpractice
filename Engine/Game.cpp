@@ -26,7 +26,7 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	pBoard = new Board( gfx, Board::Size::Big );
+	pBoard = std::make_unique<Board>( gfx, Board::Size::Big );
 }
 
 void Game::Go()
@@ -41,14 +41,13 @@ void Game::UpdateModel()
 {
 	if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
 	{
-		delete pBoard;
-		pBoard = nullptr;
+		pBoard.reset();
 	}
 }
 
 void Game::ComposeFrame()
 {
-	if( pBoard != nullptr )
+	if( pBoard )
 		pBoard->Draw();
 
 }
