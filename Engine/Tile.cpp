@@ -1,5 +1,6 @@
 #include "Tile.h"
 #include "SpriteCodex.h"
+#include <cassert>
 
 void Tile::Draw( const Vei2& screenpos, Graphics& gfx )
 {
@@ -23,5 +24,6 @@ bool Tile::HasBomb()
 
 void Tile::SpawnBomb()
 {
+	assert( !hasBomb );
 	hasBomb = true;
 }
