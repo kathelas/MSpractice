@@ -26,7 +26,8 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	pBoard = std::make_unique<Board>( gfx, Board::Size::Big );
+	pBoard = std::make_unique<Board>( gfx, Board::Size::Small );
+	state = GState::Play;
 }
 
 void Game::Go()
@@ -39,9 +40,20 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if( wnd.kbd.KeyIsPressed( VK_SPACE ) )
+	if( state == GState::Play )
 	{
-		pBoard.reset();
+		while( !wnd.mouse.IsEmpty() )
+		{
+			const Mouse::Event e = wnd.mouse.Read();
+			if( e.GetType() == Mouse::Event::Type::LPress )
+			{
+				Vei2 temp = { e.GetPosX(), e.GetPosY() };
+				if( !pBoard->RevealTileAt( temp ) )
+				{
+					state = GState::Lose;
+				}
+			}
+		}
 	}
 }
 

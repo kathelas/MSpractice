@@ -19,12 +19,14 @@ public:
 	Board( Graphics& gfx, Size size );
 	void Draw() const;
 	void SpawnBombs( int amount );
+	bool RevealTileAt( Vei2 mousepos );
 
 
 
 private:
 
 	Vei2& GridPosToScreenPos( Vei2& input ) const;
+	Vei2& ScreenPosToGridPos( Vei2& input ) const;
 
 	Vei2 boardPos = { 0, 0 };
 

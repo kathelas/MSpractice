@@ -46,5 +46,11 @@ private:
 	/*  User Variables              */
 	/********************************/
 	std::unique_ptr<Board> pBoard;
+	enum class GState
+	{
+		Play,
+		Lose
+	};
+	GState state;
 
 };

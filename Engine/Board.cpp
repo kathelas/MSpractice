@@ -79,8 +79,36 @@ void Board::SpawnBombs( int amount )
 
 }
 
+bool Board::RevealTileAt( Vei2 mousepos )
+{
+	ScreenPosToGridPos( mousepos );
+	int pos = mousepos.y * width + mousepos.x;
+	if( pTiles[pos].GetState() == Tile::State::Hidden )
+	{
+		pTiles[pos].Reveal();
+		if( pTiles[pos].HasBomb() )
+			return false;
+		else
+			return true;
+	}
+	else
+	{
+		return true;
+	}
+}
+
 Vei2& Board::GridPosToScreenPos( Vei2& input ) const
 {
 	input *= SpriteCodex::tileSize;
+	input += boardPos;
 	return input;
+}
+
+Vei2& Board::ScreenPosToGridPos( Vei2& input ) const
+{
+	input -= boardPos;
+	input /= SpriteCodex::tileSize;
+	return input;
+
+
 }
