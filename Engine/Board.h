@@ -26,6 +26,8 @@ public:
 
 private:
 
+	void RecReveal( int a, int b );
+
 	void CountBombs();
 
 	Vei2& GridPosToScreenPos( Vei2& input ) const;

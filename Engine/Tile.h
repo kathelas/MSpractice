@@ -20,6 +20,7 @@ public:
 	void ToggleFlag();
 	const Tile::State GetState() const;
 	void SetCloseBombs( int nBombs );
+	int GetCloseBombs() const;
 
 private:
 	State state = State::Hidden;

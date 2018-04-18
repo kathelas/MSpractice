@@ -90,6 +90,24 @@ bool Board::RevealTileAt( Vei2 mousepos )
 		pTiles[pos].Reveal();
 		if( pTiles[pos].HasBomb() )
 			return false;
+		else if( pTiles[pos].GetCloseBombs() == 0 )
+		{
+			GridPosToScreenPos( mousepos );
+			for( int x = -1; x <= 1; x++ )
+			{
+				for( int y = -1; y <= 1; y++ )
+				{
+					if( !(x == 0 && y == 0) )
+					{
+						Vei2 temp = mousepos;
+						temp.x += x;
+						temp.y += y;
+						RevealTileAt( temp );
+					}
+				}
+			}
+			return true;
+		}
 		else
 			return true;
 	}
@@ -115,10 +133,11 @@ void Board::CountBombs()
 	{
 		for( int i = 0; i < width; i++ )
 		{
+			//fuck this
 			int bombs = 0;
 			auto count = [=, &bombs]( int a, int b ) {
 				int temp = (j + a) * width + i + b;
-				if( temp >= 0 && temp < width * height )
+				if( temp >= 0 && temp < width * height && temp != j * width + i )
 				{
 					if( pTiles[temp].HasBomb() )
 					{
