@@ -20,10 +20,13 @@ public:
 	void Draw() const;
 	void SpawnBombs( int amount );
 	bool RevealTileAt( Vei2 mousepos );
+	void FlagTileAt( Vei2 mousepos );
 
 
 
 private:
+
+	void CountBombs();
 
 	Vei2& GridPosToScreenPos( Vei2& input ) const;
 	Vei2& ScreenPosToGridPos( Vei2& input ) const;

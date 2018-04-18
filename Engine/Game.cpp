@@ -53,6 +53,11 @@ void Game::UpdateModel()
 					state = GState::Lose;
 				}
 			}
+			if( e.GetType() == Mouse::Event::Type::RPress )
+			{
+				Vei2 temp = { e.GetPosX(), e.GetPosY() };
+				pBoard->FlagTileAt( temp );
+			}
 		}
 	}
 }

@@ -13,13 +13,16 @@ public:
 	};
 
 public:
-	void Draw( const Vei2& screenpos, Graphics& gfx );
-	bool HasBomb();
+	void Draw( const Vei2& screenpos, Graphics& gfx ) const;
+	bool HasBomb() const;
 	void SpawnBomb();
 	void Reveal();
+	void ToggleFlag();
 	const Tile::State GetState() const;
+	void SetCloseBombs( int nBombs );
 
 private:
 	State state = State::Hidden;
 	bool hasBomb = false;
+	int closeBombs = -1;
 };

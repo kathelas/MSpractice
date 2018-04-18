@@ -2,7 +2,7 @@
 #include "SpriteCodex.h"
 #include <cassert>
 
-void Tile::Draw( const Vei2& screenpos, Graphics& gfx )
+void Tile::Draw( const Vei2& screenpos, Graphics& gfx ) const
 {
 	switch( state )
 	{
@@ -14,10 +14,14 @@ void Tile::Draw( const Vei2& screenpos, Graphics& gfx )
 		if( hasBomb )
 			SpriteCodex::DrawTileBomb( screenpos, gfx );
 		break;
+	case State::Flagged:
+		SpriteCodex::DrawTileButton( screenpos, gfx );
+		SpriteCodex::DrawTileFlag( screenpos, gfx );
+		break;
 	}
 }
 
-bool Tile::HasBomb()
+bool Tile::HasBomb() const
 {
 	return hasBomb;
 }
@@ -34,7 +38,22 @@ void Tile::Reveal()
 	state = State::Revealed;
 }
 
+void Tile::ToggleFlag()
+{
+	assert( state == State::Hidden || state == State::Flagged );
+	if( state == State::Hidden )
+		state = State::Flagged;
+	else
+		state = State::Hidden;
+}
+
 const Tile::State Tile::GetState() const
 {
 	return state;
+}
+
+void Tile::SetCloseBombs( int nBombs )
+{
+	assert( closeBombs == -1 );
+	closeBombs = nBombs;
 }

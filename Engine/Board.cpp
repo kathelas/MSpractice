@@ -32,6 +32,8 @@ Board::Board( Graphics& gfx, Size size )
 	pTiles = std::make_unique<Tile[]>(width * height);
 
 	SpawnBombs( nBombs );
+
+	CountBombs();
 }
 
 void Board::Draw() const
@@ -94,6 +96,49 @@ bool Board::RevealTileAt( Vei2 mousepos )
 	else
 	{
 		return true;
+	}
+}
+
+void Board::FlagTileAt( Vei2 mousepos )
+{
+	ScreenPosToGridPos( mousepos );
+	int pos = mousepos.y * width + mousepos.x;
+	if( pTiles[pos].GetState() == Tile::State::Hidden || pTiles[pos].GetState() == Tile::State::Flagged )
+	{
+		pTiles[pos].ToggleFlag();
+	}
+}
+
+void Board::CountBombs()
+{
+	for( int j = 0; j < height; j++ )
+	{
+		for( int i = 0; i < width; i++ )
+		{
+			int bombs = 0;
+			auto count = [=, &bombs]( int a, int b ) {
+				int temp = (j + a) * width + i + b;
+				if( temp >= 0 && temp < width * height )
+				{
+					if( pTiles[temp].HasBomb() )
+					{
+						bombs += 1;
+					}
+				}
+			};
+
+			for( int x = -1; x <= 1; x++ )
+			{
+				for( int y = -1; y <= 1; y++ )
+				{
+					count( x, y );
+				}
+			}
+
+			assert( bombs >= 0 && bombs <= 8 );
+
+			pTiles[j * width + i].SetCloseBombs( bombs );
+		}
 	}
 }
 
