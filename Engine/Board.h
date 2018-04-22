@@ -21,19 +21,18 @@ public:
 	void SpawnBombs( int amount );
 	bool RevealTileAt( Vei2 mousepos );
 	void FlagTileAt( Vei2 mousepos );
+	void RevealAllBombs();
 
 
 
 private:
-
-	void RecReveal( int a, int b );
 
 	void CountBombs();
 
 	Vei2& GridPosToScreenPos( Vei2& input ) const;
 	Vei2& ScreenPosToGridPos( Vei2& input ) const;
 
-	Vei2 boardPos = { 0, 0 };
+	Vei2 boardPos = { 50, 50 };
 
 	int width;
 	int height;

@@ -26,7 +26,7 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	pBoard = std::make_unique<Board>( gfx, Board::Size::Small );
+	pBoard = std::make_unique<Board>( gfx, Board::Size::Medium );
 	state = GState::Play;
 }
 
@@ -40,7 +40,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if( state == GState::Play )
+	if( state == GState::Play || state == GState::Lose )
 	{
 		while( !wnd.mouse.IsEmpty() )
 		{
@@ -51,6 +51,7 @@ void Game::UpdateModel()
 				if( !pBoard->RevealTileAt( temp ) )
 				{
 					state = GState::Lose;
+					pBoard->RevealAllBombs();
 				}
 			}
 			if( e.GetType() == Mouse::Event::Type::RPress )

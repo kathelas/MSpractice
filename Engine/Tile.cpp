@@ -50,6 +50,14 @@ void Tile::Draw( const Vei2& screenpos, Graphics& gfx ) const
 		SpriteCodex::DrawTileButton( screenpos, gfx );
 		SpriteCodex::DrawTileFlag( screenpos, gfx );
 		break;
+	case State::FlaggedRev:
+		SpriteCodex::DrawTile0( screenpos, gfx );
+		if( hasBomb )
+		{
+			SpriteCodex::DrawTileBomb( screenpos, gfx );
+		}
+		SpriteCodex::DrawTileFlag( screenpos, gfx );
+		break;
 	}
 }
 
@@ -68,6 +76,12 @@ void Tile::Reveal()
 {
 	assert( state == State::Hidden );
 	state = State::Revealed;
+}
+
+void Tile::RevealFlag()
+{
+	assert( state == State::Flagged );
+	state = State::FlaggedRev;
 }
 
 void Tile::ToggleFlag()

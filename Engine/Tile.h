@@ -9,7 +9,8 @@ public:
 	{
 		Hidden,
 		Revealed,
-		Flagged
+		Flagged,
+		FlaggedRev
 	};
 
 public:
@@ -17,6 +18,7 @@ public:
 	bool HasBomb() const;
 	void SpawnBomb();
 	void Reveal();
+	void RevealFlag();
 	void ToggleFlag();
 	const Tile::State GetState() const;
 	void SetCloseBombs( int nBombs );

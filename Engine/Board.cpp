@@ -13,7 +13,7 @@ Board::Board( Graphics& gfx, Size size )
 	case Size::Small:
 		width = 10;
 		height = 8;
-		nBombs = 20;
+		nBombs = 15;
 		break;
 	case Size::Medium:
 		width = 20;
@@ -52,7 +52,6 @@ void Board::Draw() const
 		{
 			Vei2 temp = { i, j };
 			GridPosToScreenPos( temp );
-			temp += boardPos;
 			pTiles[j * width + i].Draw( temp, gfx );
 		}
 	}
@@ -69,7 +68,7 @@ void Board::SpawnBombs( int amount )
 
 	for( int count = 0; count < amount; count++ )
 	{
-		int temp;
+		int temp = -1;
 		do
 		{
 			temp = dist( rng );
@@ -92,7 +91,6 @@ bool Board::RevealTileAt( Vei2 mousepos )
 			return false;
 		else if( pTiles[pos].GetCloseBombs() == 0 )
 		{
-			GridPosToScreenPos( mousepos );
 			for( int x = -1; x <= 1; x++ )
 			{
 				for( int y = -1; y <= 1; y++ )
@@ -102,7 +100,11 @@ bool Board::RevealTileAt( Vei2 mousepos )
 						Vei2 temp = mousepos;
 						temp.x += x;
 						temp.y += y;
-						RevealTileAt( temp );
+						if( temp.x >= 0 && temp.y >= 0 && temp.x < width && temp.y < height )
+						{
+							GridPosToScreenPos( temp );
+							RevealTileAt( temp );
+						}
 					}
 				}
 			}
@@ -127,17 +129,31 @@ void Board::FlagTileAt( Vei2 mousepos )
 	}
 }
 
+void Board::RevealAllBombs()
+{
+	for( int i = 0; i < width * height; i++ )
+	{
+		if( pTiles[i].HasBomb() )
+		{
+			if( pTiles[i].GetState() == Tile::State::Hidden )
+				pTiles[i].Reveal();
+			if( pTiles[i].GetState() == Tile::State::Flagged )
+				pTiles[i].RevealFlag();
+		}
+	}
+}
+
 void Board::CountBombs()
 {
 	for( int j = 0; j < height; j++ )
 	{
 		for( int i = 0; i < width; i++ )
 		{
-			//fuck this
 			int bombs = 0;
+
 			auto count = [=, &bombs]( int a, int b ) {
 				int temp = (j + a) * width + i + b;
-				if( temp >= 0 && temp < width * height && temp != j * width + i )
+				if( i + b < width && i + b >= 0 && j + a<height && j + a >= 0 )
 				{
 					if( pTiles[temp].HasBomb() )
 					{
